@@ -5,7 +5,7 @@ const mapInput = document.querySelector('#map-input')
 const mapButton = document.querySelector('#map-button')
 let mapContainer = document.querySelector('#map-frame')
 let ErrorText = document.querySelector('.error-text')
-let formContainer = document.querySelector('.right-hand form')
+let formContainer = document.querySelector('.right-hand .formform')
 
 mapContainer.src = MAP
 
@@ -36,12 +36,20 @@ document.querySelector('#searchProduct').addEventListener('keyup', event => {
 function RenderItems(data) {
     const collection = document.querySelector('.collection');
     collection.innerHTML = ""; // Clear previous items
-
-    data.forEach(ele => {
-        const item = document.createElement('div');
-        item.classList.add('card');
-        item.onclick = () => openModal(ele.id);
-        item.innerHTML = `
+    if (data.length < 1) {
+        new Array(9).fill(0).map(ele => {
+            const item = document.createElement('div');
+            item.innerHTML = `
+    <div class="empty"></div>
+    `
+            collection.appendChild(item);
+        })
+    } else {
+        data.forEach(ele => {
+            const item = document.createElement('div');
+            item.classList.add('card');
+            item.onclick = () => openModal(ele.id);
+            item.innerHTML = `
             <div class="card-image">
                 <figure class="image">
                     <img src="${ele.thumbnail}">
@@ -58,8 +66,9 @@ function RenderItems(data) {
                 <div class="subtitle">${ele.title}(${ele.brand})</div>
             </div>
         `;
-        collection.appendChild(item);
-    });
+            collection.appendChild(item);
+        });
+    }
 }
 
 const GetStars = (num) => {
@@ -94,14 +103,24 @@ function openModal(id) {
 
 
 mapButton.addEventListener('click', () => {
-    if(mapInput.value === '') {
+    if (mapInput.value === '') {
         ErrorText.innerHTML = 'Enter a valid location'
         formContainer.style.border = "1px solid red"
         setTimeout(() => {
             ErrorText.innerHTML = ""
             formContainer.style.border = "1px solid #c7c4c4"
         }, 2000);
-        return 
+        return
     }
-    mapContainer.src = `https://www.google.com/maps/embed/v1/place?q=${mapInput.value}&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8`
+    const spins = document.querySelector('.lds-hourglass')
+    spins.style.display = "inline-block"
+    mapButton.style.backgroundColor = "#67b47e"
+    mapButton.disabled = true
+    setTimeout(() => {
+        spins.style.display = "none"
+        mapButton.style.backgroundColor = "#009a2e"
+        mapButton.disabled = false
+        mapContainer.src = `https://www.google.com/maps/embed/v1/place?q=${mapInput.value}&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8`
+    }, 3000);
+
 })

@@ -28,7 +28,7 @@ nav {
 nav>div:nth-child(2) {
     width: calc(100% - 50%);
 }
-nav form {
+nav .navform {
     display: flex;
     align-items: center;
     border-radius: 0.5rem;
@@ -56,7 +56,7 @@ main>div {
     margin: 1rem;
     height: fit-content;
 }
-.right-hand form {
+.right-hand .formform {
     display: flex;
     align-items: center;
     border:  1px solid #c7c4c4;
@@ -90,8 +90,12 @@ main>div {
     color: #fff;
     font-size: 1.2rem;
     cursor: pointer;
+    transition: all 100ms ease;
     position: relative;
     background-color: var(--mainbg);
+}
+.form-container button:active {
+    transform: scale(0.3);
 }
 .error-text {
     color: red;
@@ -215,9 +219,14 @@ main>div {
     align-items: center;
     justify-content: space-between;
 }
+.empty {
+    height: 18rem;
+    border-radius: 1rem;
+    background: #ededed;
+}
 
 .lds-hourglass {
-    display: inline-block;
+    display: none;
     position: relative;
     width: 20px;
     height: 20px;
@@ -271,7 +280,7 @@ main>div {
         width: 28%;
         margin-top: 8rem;
     }
-    .right-hand form {
+    .right-hand .formform {
         width: 55%;
     }
     .right-hand {
